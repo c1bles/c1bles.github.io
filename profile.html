@@ -1,0 +1,180 @@
+<html><head><base href="." />
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Courier New', monospace;
+}
+
+body {
+    background: #1a1b1e;
+    color: #ff69b4;
+    min-height: 100vh;
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.terminal {
+    background: #0a0a0a;
+    border-radius: 10px;
+    padding: 2rem;
+    width: 800px;
+    max-width: 95%;
+    box-shadow: 0 0 20px rgba(255, 105, 180, 0.2);
+    border: 1px solid #ff69b4;
+    position: relative;
+}
+
+.terminal-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #1a1b1e;
+    padding: 8px;
+    border-radius: 10px 10px 0 0;
+    border-bottom: 1px solid #ff69b4;
+}
+
+.terminal-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.terminal-button {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.red { background: #ff5f56; }
+.yellow { background: #ffbd2e; }
+.green { background: #27c93f; }
+
+.terminal-content {
+    margin-top: 30px;
+    line-height: 1.6;
+}
+
+.command {
+    color: #ff69b4;
+    margin-bottom: 1rem;
+}
+
+.command::before {
+    content: "$ ";
+    color: #ff69b4;
+}
+
+.output {
+    color: #ffffff;
+    margin-bottom: 1.5rem;
+}
+
+.cursor {
+    display: inline-block;
+    width: 8px;
+    height: 15px;
+    background: #ff69b4;
+    animation: blink 1s infinite;
+    margin-left: 5px;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+}
+
+.ascii-art {
+    color: #ff69b4;
+    white-space: pre;
+    font-size: 12px;
+    margin: 20px 0;
+}
+
+.typing {
+    overflow: visible;
+    white-space: nowrap;
+    animation: typing-cursor 3.5s steps(40, end);
+    border-right: none;
+}
+
+@keyframes typing-cursor {
+    0% { border-right: 2px solid #ff69b4; }
+    99% { border-right: 2px solid #ff69b4; }
+    100% { border-right: none; }
+}
+
+</style>
+</head>
+<body>
+    <div class="terminal">
+        <div class="terminal-header">
+            <div class="terminal-buttons">
+                <div class="terminal-button red"></div>
+                <div class="terminal-button yellow"></div>
+                <div class="terminal-button green"></div>
+            </div>
+        </div>
+        <div class="terminal-content">
+            <p class="command">whoami</p>
+            <div class="output ascii-art">   ____ ___ ____  _     _____ ____  
+  / ___|_ _| __ )| |   | ____/ ___| 
+ | |    | ||  _ \| |   |  _| \___ \ 
+ | |___ | || |_) | |___| |___ ___) |
+  \____|___|____/|_____|_____|____/ 
+                                    </div>
+            <p class="command">cat about.txt</p>
+            <div class="output typing">
+                cibles/c1bles | Degenerate French dev that does nothing with his life :3
+            </div>
+            <p class="command">ls skills/</p>
+            <div class="output">
+                JavaScript.exe*<br>
+                Python.py*<br>
+                CoffeeScript.coffee*<br>
+                HTML.html*<br>
+                CSS.css*<br>
+                Kotlin.kt*<br>
+                Memes.lol*
+            </div>
+            <p class="command">cat hobbies.log</p>
+            <div class="output">
+                - Debugging at 3 AM 🌙<br>
+                - Tryharding otaku stuff 🍙<br>
+                - Translating stuff ✨<br>
+                - Being a dumbass 🎉
+            </div>
+            <p class="command">ping social_links</p>
+            <div class="output">
+                <a href="https://github.com/c1bles" style="color: #ff69b4; text-decoration: none;">github.com/c1bles</a> ... 200 OK<br>
+                <a href="https://twitter.com/c1bles" style="color: #ff69b4; text-decoration: none;">twitter.com/c1bles</a> ... 200 OK<br>
+                <a href="https://cibles.itch.io" style="color: #ff69b4; text-decoration: none;">cibles.itch.io</a> ... 200 OK<br>
+                <a href="https://reddit.com/user/MarioMartinat" style="color: #ff69b4; text-decoration: none;">reddit.com/user/MarioMartinat</a> ... 200 OK
+            </div>
+            <p class="command">_<span class="cursor"></span></p>
+        </div>
+    </div>
+
+    <script>
+        // Add typing effect to all typing class elements
+        document.querySelectorAll('.typing').forEach(element => {
+            let text = element.textContent;
+            element.textContent = '';
+            let i = 0;
+            
+            function typeWriter() {
+                if (i < text.length) {
+                    element.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 50);
+                }
+            }
+            
+            typeWriter();
+        });
+    </script>
+</body></html>
