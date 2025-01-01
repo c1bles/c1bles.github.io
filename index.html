@@ -1,179 +1,437 @@
 <html><head><base href="." />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>c1bles.github.io</title>
+
 <style>
-* {
+  * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Courier New', monospace;
-}
+    font-family: 'Inter', sans-serif;
+  }
 
-body {
-    background: #1a1b1e;
-    color: #ff69b4;
-    min-height: 100vh;
-    padding: 2rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+  :root {
+    --primary: #E4E4E4;
+    --accent: #FF3366;
+    --bg: #0A0A0A;
+    --card-bg: rgba(255, 255, 255, 0.05);
+  }
 
-.terminal {
-    background: #0a0a0a;
-    border-radius: 10px;
-    padding: 2rem;
-    width: 800px;
-    max-width: 95%;
-    box-shadow: 0 0 20px rgba(255, 105, 180, 0.2);
-    border: 1px solid #ff69b4;
-    position: relative;
-}
+  body {
+    background: var(--bg);
+    color: var(--primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
 
-.terminal-header {
-    position: absolute;
+  .nav {
+    position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    background: #1a1b1e;
-    padding: 8px;
-    border-radius: 10px 10px 0 0;
-    border-bottom: 1px solid #ff69b4;
-}
+    width: 100%;
+    padding: 1.5rem;
+    z-index: 1000;
+    background: rgba(10, 10, 10, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
 
-.terminal-buttons {
+  .nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
     display: flex;
-    gap: 8px;
-}
+    justify-content: flex-end;
+    gap: 2rem;
+  }
 
-.terminal-button {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-}
+  .nav-link {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+    position: relative;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
 
-.red { background: #ff5f56; }
-.yellow { background: #ffbd2e; }
-.green { background: #27c93f; }
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent);
+    transition: width 0.3s ease;
+  }
 
-.terminal-content {
-    margin-top: 30px;
-    line-height: 1.6;
-}
+  .nav-link:hover {
+    color: var(--accent);
+  }
 
-.command {
-    color: #ff69b4;
+  .nav-link:hover::after {
+    width: 100%;
+  }
+
+  .glass-container {
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 3rem;
+    max-width: 1200px;
+    margin: 2rem auto;
+  }
+
+  .section {
+    min-height: 100vh;
+    display: none;
+    align-items: center;
+    position: relative;
+  }
+
+  .section.active {
+    display: flex;
+  }
+
+  .hero-content {
+    width: 100%;
+    z-index: 1;
+  }
+
+  .title {
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    font-weight: 800;
+    line-height: 1.1;
     margin-bottom: 1rem;
-}
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeUp 0.8s ease forwards;
+    background: linear-gradient(45deg, var(--primary), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 
-.command::before {
-    content: "$ ";
-    color: #ff69b4;
-}
+  .subtitle {
+    font-size: clamp(1rem, 3vw, 1.5rem);
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 2rem;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeUp 0.8s ease forwards 0.2s;
+  }
 
-.output {
-    color: #ffffff;
-    margin-bottom: 1.5rem;
-}
+  .skills {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+  }
 
-.cursor {
-    display: inline-block;
-    width: 8px;
-    height: 15px;
-    background: #ff69b4;
-    animation: blink 1s infinite;
-    margin-left: 5px;
-}
+  .skill-tag {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.5s ease forwards;
+    transition: all 0.3s ease;
+  }
 
-@keyframes blink {
-    0%, 100% { opacity: 0; }
-    50% { opacity: 1; }
-}
+  .skill-tag:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+  }
 
-.ascii-art {
-    color: #ff69b4;
-    white-space: pre;
-    font-size: 12px;
-    margin: 20px 0;
-}
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
 
-.typing {
-    overflow: visible;
-    white-space: nowrap;
-    animation: typing-cursor 3.5s steps(40, end);
-    border-right: none;
-}
+  .project-card {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 2rem;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
 
-@keyframes typing-cursor {
-    0% { border-right: 2px solid #ff69b4; }
-    99% { border-right: 2px solid #ff69b4; }
-    100% { border-right: none; }
-}
+  .project-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.1);
+  }
 
+  .project-image {
+    width: 100%;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: var(--accent);
+  }
+
+  .project-title {
+    color: var(--accent);
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .project-description {
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 1rem;
+  }
+
+  .project-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: auto;
+  }
+
+  .project-link {
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    color: var(--primary);
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .project-link:hover {
+    background: var(--accent);
+  }
+
+  .floating-shapes {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+  }
+
+  .glow {
+    position: absolute;
+    width: 40vw;
+    height: 40vw;
+    border-radius: 50%;
+    background: var(--accent);
+    filter: blur(100px);
+    opacity: 0.1;
+    animation: glow 10s infinite;
+  }
+
+  .glow:nth-child(1) {
+    top: -20%;
+    left: -10%;
+    background: #FF3366;
+  }
+
+  .glow:nth-child(2) {
+    bottom: -20%;
+    right: -10%;
+    background: #6C63FF;
+  }
+
+  .socials {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .social-link {
+    color: var(--primary);
+    text-decoration: none;
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+    padding: 1rem;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    width: 3.5rem;
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .social-link:hover {
+    color: var(--accent);
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+  }
+
+  @keyframes glow {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(5%, 5%); }
+  }
+
+  @keyframes fadeUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 </style>
-</head>
-<body>
-    <div class="terminal">
-        <div class="terminal-header">
-            <div class="terminal-buttons">
-                <div class="terminal-button red"></div>
-                <div class="terminal-button yellow"></div>
-                <div class="terminal-button green"></div>
-            </div>
-        </div>
-        <div class="terminal-content">
-            <p class="command">whoami</p>
-            <div class="output ascii-art">   ____ ___ ____  _     _____ ____  
-  / ___|_ _| __ )| |   | ____/ ___| 
- | |    | ||  _ \| |   |  _| \___ \ 
- | |___ | || |_) | |___| |___ ___) |
-  \____|___|____/|_____|_____|____/ 
-                                    </div>
-            <p class="command">cat about.txt</p>
-            <div class="output typing">
-                cibles/c1bles | Degenerate French dev that does nothing with his life :3
-            </div>
-            <p class="command">ls skills/</p>
-            <div class="output">
-                JavaScript.exe*<br>
-                Python.py*<br>
-                CoffeeScript.coffee*<br>
-                HTML.html*<br>
-                CSS.css*<br>
-                Kotlin.kt*<br>
-                Memes.lol*
-            </div>
-            <p class="command">cat hobbies.log</p>
-            <div class="output">
-                - Debugging at 3 AM 🌙<br>
-                - Tryharding otaku stuff 🍙<br>
-                - Translating stuff ✨<br>
-                - Being a dumbass 🎉
-            </div>
-            <p class="command">ping social_links</p>
-            <div class="output">
-                <a href="https://github.com/c1bles" style="color: #ff69b4; text-decoration: none;">github.com/c1bles</a> ... 200 OK<br>
-                <a href="https://twitter.com/c1bles" style="color: #ff69b4; text-decoration: none;">twitter.com/c1bles</a> ... 200 OK<br>
-                <a href="https://cibles.itch.io" style="color: #ff69b4; text-decoration: none;">cibles.itch.io</a> ... 200 OK<br>
-                <a href="https://reddit.com/user/MarioMartinat" style="color: #ff69b4; text-decoration: none;">reddit.com/user/MarioMartinat</a> ... 200 OK
-            </div>
-            <p class="command">_<span class="cursor"></span></p>
-        </div>
-    </div>
 
-    <script>
-        document.querySelectorAll('.typing').forEach(element => {
-            let text = element.textContent;
-            element.textContent = '';
-            let i = 0;
-            
-            function typeWriter() {
-                if (i < text.length) {
-                    element.textContent += text.charAt(i);
-                    i++;
-                    setTimeout(typeWriter, 50);
-                }
-            }
-            
-            typeWriter();
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+<body>
+  <nav class="nav">
+    <div class="nav-container">
+      <a class="nav-link" onclick="location.reload()">Home</a>
+      <a class="nav-link" onclick="showSection('projects')">Projects</a>
+      <a class="nav-link" onclick="showSection('more')">More</a>
+    </div>
+  </nav>
+
+  <div class="floating-shapes">
+    <div class="glow"></div>
+    <div class="glow"></div>
+  </div>
+
+  <section id="home" class="section active">
+    <div class="glass-container">
+      <div class="hero-content">
+        <h1 class="title">Hello, I'm Cibles</h1>
+        <p class="subtitle">c1bles | Does lots of stuff 0w0</p>
+        
+        <div class="skills">
+          <span class="skill-tag" style="animation-delay: 0.3s">Frontend Development</span>
+          <span class="skill-tag" style="animation-delay: 0.4s">UI/UX Design</span>
+          <span class="skill-tag" style="animation-delay: 0.5s">HTML</span>
+          <span class="skill-tag" style="animation-delay: 0.6s">Node.js</span>
+          <span class="skill-tag" style="animation-delay: 0.7s">Python</span>
+        </div>
+
+        <div class="socials">
+          <a href="https://github.com/yourusername" class="social-link">
+            <i class="fab fa-github"></i>
+          </a>
+          <a href="https://itch.io/yourusername" class="social-link">
+            <i class="fab fa-itch-io"></i>
+          </a>
+          <a href="https://twitter.com/yourusername" class="social-link">
+            <i class="fab fa-twitter"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects" class="section">
+    <div class="glass-container">
+      <div class="hero-content">
+        <h1 class="title">My Projects</h1>
+        <div class="project-grid">
+          <div class="project-card">
+            <div class="project-image">
+              <i class="fas fa-star"></i>
+            </div>
+            <h3 class="project-title">Featured Project 1</h3>
+            <p class="project-description">Description for your featured project goes here. Highlight the key features and technologies used.</p>
+            <div class="project-links">
+              <a href="https://github.com" class="project-link">View Code</a>
+              <a href="https://demo-link.com" class="project-link">Live Demo</a>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <div class="project-image">
+              <i class="fas fa-code"></i>
+            </div>
+            <h3 class="project-title">Featured Project 2</h3>
+            <p class="project-description">Another awesome project description. Share what makes this project special.</p>
+            <div class="project-links">
+              <a href="https://github.com" class="project-link">View Code</a>
+              <a href="https://demo-link.com" class="project-link">Live Demo</a>
+            </div>
+          </div>
+
+          <div class="project-card">
+            <div class="project-image">
+              <i class="fas fa-laptop-code"></i>
+            </div>
+            <h3 class="project-title">Featured Project 3</h3>
+            <p class="project-description">One more fantastic project to showcase your skills and creativity.</p>
+            <div class="project-links">
+              <a href="https://github.com" class="project-link">View Code</a>
+              <a href="https://demo-link.com" class="project-link">Live Demo</a>
+            </div>
+          </div>
+        </div>
+        
+        <h2 style="margin-top: 3rem; margin-bottom: 1rem; color: var(--accent)">GitHub Projects</h2>
+        <div id="github-projects"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="more" class="section">
+    <div class="glass-container">
+      <div class="hero-content">
+        <h1 class="title">More Coming Soon</h1>
+        <p class="subtitle">This section is under construction...</p>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    function showSection(sectionId) {
+      document.querySelectorAll('.section').forEach(section => {
+        section.classList.remove('active');
+      });
+      document.getElementById(sectionId).classList.add('active');
+    }
+
+    document.addEventListener('mousemove', (e) => {
+      const glows = document.querySelectorAll('.glow');
+      const x = e.clientX / window.innerWidth;
+      const y = e.clientY / window.innerHeight;
+      
+      glows.forEach((glow, index) => {
+        const factor = (index + 1) * 10;
+        glow.style.transform = `translate(${x * factor}%, ${y * factor}%)`;
+      });
+    });
+
+    async function fetchGitHubProjects() {
+      try {
+        const username = 'yourusername'; // Replace with your GitHub username
+        const response = await fetch(`https://api.github.com/users/${username}/repos`);
+        const projects = await response.json();
+        
+        const projectsContainer = document.getElementById('github-projects');
+        projects.slice(0, 5).forEach(project => {
+          const projectCard = document.createElement('div');
+          projectCard.className = 'project-card';
+          projectCard.innerHTML = `
+            <h3 class="project-title">${project.name}</h3>
+            <p class="project-description">${project.description || 'No description available'}</p>
+            <p> ${project.stargazers_count} | ${project.forks_count}</p>
+          `;
+          projectCard.onclick = () => window.open(project.html_url, '_blank');
+          projectsContainer.appendChild(projectCard);
         });
-    </script>
-</body></html>
+      } catch (error) {
+        console.error('Error fetching GitHub projects:', error);
+      }
+    }
+
+    fetchGitHubProjects();
+  </script>
+</body>
+</html>
