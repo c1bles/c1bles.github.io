@@ -3,5 +3,5 @@ Personal Website
 
 # Last Redesign:
 1/1/2025
-### Last revesion
+### Last revision
 1/5/2025
